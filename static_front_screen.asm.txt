@@ -1,0 +1,697 @@
+[org 0x0100]
+jmp start
+a1: db 'YES ! '
+a2: db 'NO !  '
+
+clr:
+push ax
+push es
+push dx
+mov ax,0xb800
+mov es,ax
+mov ax,0x0720
+mov di,0
+mov cx,2000
+cld
+rep stosw
+
+pop dx
+pop es
+pop ax
+ret 
+
+back:
+push ax
+push es
+push di
+mov ax,0xb800
+mov es,ax
+mov ax,0xBB20
+mov di,0
+
+l1:
+mov word[es:di],ax
+add di,2
+cmp di,4000
+jne l1
+
+pop di
+pop es
+pop ax
+ret
+
+bottom:
+push ax
+push es
+push di
+mov ax,0xb800
+mov es,ax
+mov ax,80
+mov bx,3
+mul bx
+shl ax,1
+mov di,4000
+sub di,ax
+mov ax,0x6E20
+
+l2:
+mov word[es:di],ax
+add di,2
+cmp di,4000
+jne l2
+
+pop di
+pop es
+pop ax
+ret
+
+textS:
+push ax
+push es
+push di
+push si
+push bp
+mov bp,sp
+mov ax,80
+mul byte[bp+14]
+add ax,[bp+12]
+shl ax,1
+mov di,ax
+push di
+mov ax,0xb800
+mov es,ax
+mov ax,0x4020
+
+cld
+mov cx,5
+rep stosw 
+
+pop di
+mov cx,0
+l3:
+mov word[es:di],ax
+add di,160
+inc cx
+cmp cx,2
+jne l3
+
+mov cx,5
+rep stosw
+
+sub di,2
+mov cx,0
+l4:
+mov word[es:di],ax
+add di,160
+inc cx
+cmp cx,2
+jne l4
+
+std
+mov cx,5
+rep stosw
+
+pop bp
+pop si
+pop di
+pop es
+pop ax
+ret 4
+
+textT:
+push ax
+push es
+push di
+push si
+push bp
+mov bp,sp
+mov ax,80
+mul byte[bp+14]
+add ax,[bp+12]
+shl ax,1
+mov di,ax
+push di
+mov ax,0xb800
+mov es,ax
+mov ax,0x4020
+
+cld
+mov cx,5
+rep stosw
+
+sub di,6
+
+l5:
+mov word[es:di],ax
+add di,160
+inc cx
+cmp cx,5
+jne l5
+
+pop di
+pop bp
+pop si
+pop di
+pop es
+pop ax
+ret 4
+
+textA:
+push ax
+push es
+push di
+push si
+push bp
+mov bp,sp
+mov ax,80
+mul byte[bp+14]
+add ax,[bp+12]
+shl ax,1
+mov di,ax
+push di
+mov ax,0xb800
+mov es,ax
+mov ax,0x4020
+mov cx,0
+
+l6:
+add di,160
+sub di,2
+inc cx
+cmp cx,5
+jne l6
+add di,6
+sub di,160
+mov cx,0
+l7:
+mov word[es:di],ax
+sub di,160
+inc cx
+cmp cx,5
+jne l7
+
+add di,160
+mov cx,4
+rep stosw
+
+l8:
+mov word[es:di],ax
+add di,160
+inc cx
+cmp cx,5
+jne l8
+
+sub di,480
+std
+mov cx,4
+rep stosw
+
+pop di
+pop bp
+pop si
+pop di
+pop es
+pop ax
+ret 4
+
+textR:
+push ax
+push es
+push di
+push si
+push bp
+mov bp,sp
+mov ax,80
+mul byte[bp+14]
+add ax,[bp+12]
+shl ax,1
+mov di,ax
+push di
+mov ax,0xb800
+mov es,ax
+mov ax,0x4020
+mov cx,0
+
+l9:
+add di,160
+inc cx
+cmp cx,5
+jne l9
+sub di,160
+
+mov cx,0
+l10:
+mov word[es:di],ax
+sub di,160
+inc cx
+cmp cx,5
+jne l10
+
+cld
+add di,160
+mov cx,4
+rep stosw
+
+mov word[es:di],ax
+add di,160
+mov word[es:di],ax
+add di,160
+
+std
+mov cx,4
+rep stosw
+
+mov cx,0
+l11:
+mov word[es:di],ax
+add di,2
+add di,160
+inc cx
+cmp cx,2
+jne l11
+mov word[es:di],ax
+add di,2
+mov word[es:di],ax
+
+pop di
+pop bp
+pop si
+pop di
+pop es
+pop ax
+ret 4
+
+textG:
+push ax
+push es
+push di
+push si
+push bp
+mov bp,sp
+mov ax,80
+mul byte[bp+14]
+add ax,[bp+12]
+shl ax,1
+mov di,ax
+push di
+mov ax,0xb800
+mov es,ax
+mov ax,0x4020
+mov cx,0
+add di,12
+std
+mov cx,6
+rep stosw
+
+l12:
+mov word[es:di],ax
+add di,160
+inc cx
+cmp cx,5
+jne l12
+
+cld
+sub di,160
+mov cx,7
+rep stosw
+
+mov word[es:di],ax
+sub di,160
+mov word[es:di],ax
+sub di,160
+std 
+mov cx,4
+rep stosw
+add di,160
+
+mov word[es:di],ax
+
+pop di
+pop bp
+pop si
+pop di
+pop es
+pop ax
+ret 4
+
+texta:
+push ax
+push es
+push di
+push si
+push bp
+mov bp,sp
+mov ax,80
+mul byte[bp+14]
+add ax,[bp+12]
+shl ax,1
+mov di,ax
+push di
+mov ax,0xb800
+mov es,ax
+mov ax,0x4020
+mov cx,0
+
+l13:
+add di,160
+sub di,2
+inc cx
+cmp cx,5
+jne l13
+add di,6
+sub di,160
+mov cx,0
+l14:
+mov word[es:di],ax
+sub di,160
+inc cx
+cmp cx,5
+jne l14
+
+add di,160
+mov cx,4
+rep stosw
+
+l15:
+mov word[es:di],ax
+add di,160
+inc cx
+cmp cx,5
+jne l15
+
+sub di,480
+cld
+mov cx,4
+rep stosw
+
+pop di
+pop bp
+pop si
+pop di
+pop es
+pop ax
+ret 4
+
+textM:
+push ax
+push es
+push di
+push si
+push bp
+mov bp,sp
+mov ax,80
+mul byte[bp+14]
+add ax,[bp+12]
+shl ax,1
+mov di,ax
+push di
+mov ax,0xb800
+mov es,ax
+mov ax,0x4020
+mov cx,0
+
+add di,640
+l16:
+mov word[es:di],ax
+sub di,160
+inc cx
+cmp cx,4
+jne l16
+
+cld
+mov cx,3
+rep stosw
+push di
+mov cx,0
+
+l17:
+mov word[es:di],ax
+add di,160
+inc cx
+cmp cx,3
+jne l17
+
+pop di
+cld
+mov cx,3
+rep stosw
+
+l18:
+mov word[es:di],ax
+add di,160
+inc cx
+cmp cx,5
+jne l18
+
+pop di
+pop bp
+pop si
+pop di
+pop es
+pop ax
+ret 4
+
+textE:
+push ax
+push es
+push di
+push si
+push bp
+mov bp,sp
+mov ax,80
+mul byte[bp+14]
+add ax,[bp+12]
+shl ax,1
+mov di,ax
+push di
+mov ax,0xb800
+mov es,ax
+mov ax,0x4020
+mov cx,0
+
+add di,640
+l19:
+mov word[es:di],ax
+sub di,160
+inc cx
+cmp cx,5
+jne l19
+
+add di,160
+add di,8
+
+std 
+mov cx,4
+rep stosw
+push di
+
+add di,320
+cld
+mov cx,3
+rep stosw
+ 
+pop di
+add di,640
+cld 
+mov cx,5
+rep stosw
+
+
+pop di
+pop bp
+pop si
+pop di
+pop es
+pop ax
+ret 4
+
+sq:
+push ax
+push es
+push di
+push si
+push bp
+mov bp,sp
+mov ax,80
+mul byte[bp+14]
+add ax,[bp+12]
+shl ax,1
+mov di,ax
+push di
+mov ax,0xb800
+mov es,ax
+mov ax,0x0020
+
+mov cx,6
+rep stosw
+
+l20:
+mov word[es:di],ax
+add di,160
+inc cx
+cmp cx,2
+jne l20
+
+std
+mov cx,7
+rep stosw
+
+
+l21:
+mov word[es:di],ax
+sub di,160
+inc cx
+cmp cx,3
+jne l21
+add di,162
+mov word[es:di],ax
+
+pop di
+pop bp
+pop si
+pop di
+pop es
+pop ax
+ret 4
+
+print:
+push ax
+push es
+push di
+push si
+push bp
+mov bp,sp
+mov ax,80
+mul byte[bp+18]
+add ax,[bp+16]
+shl ax,1
+mov di,ax
+mov si,[bp+14]
+mov cx,[bp+12]
+mov ax,0xb800
+mov es,ax
+mov ah,0x07
+add di,160
+cld
+l22:
+lodsb
+stosw
+loop l22
+
+pop bp
+pop si
+pop di
+pop es
+pop ax
+ret 10
+
+start:
+
+call clr
+call back
+call bottom
+
+mov ax,3
+push ax
+mov ax,6
+push ax
+
+call textS
+
+mov ax,3
+push ax
+mov ax,12
+push ax
+
+call textT
+
+mov ax,3
+push ax
+mov ax,20
+push ax
+
+call textA
+
+mov ax,3
+push ax
+mov ax,24
+push ax
+
+call textR
+
+mov ax,3
+push ax
+mov ax,30
+push ax
+
+call textT
+
+mov ax,3
+push ax
+mov ax,42
+push ax
+
+call textG
+
+mov ax,3
+push ax
+mov ax,57
+push ax
+
+
+call texta
+
+mov ax,3
+push ax
+mov ax,57
+push ax
+
+call textM
+
+mov ax,3
+push ax
+mov ax,65
+push ax
+
+call textE
+
+mov ax,12
+push ax
+mov ax,25
+push ax
+
+call sq
+
+mov ax,12
+push ax
+mov ax,45
+push ax
+
+cld
+call sq
+
+mov ax,12
+push ax
+mov ax,25
+push ax
+mov ax,a1
+push ax
+mov ax,6
+push ax
+
+call print
+
+mov ax,12
+push ax
+mov ax,45
+push ax
+mov ax,a2
+push ax
+mov ax,6
+push ax
+
+call print
+
+
+mov ax,0x4C00
+int 0x21

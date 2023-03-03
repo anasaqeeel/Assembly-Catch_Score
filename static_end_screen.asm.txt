@@ -1,0 +1,613 @@
+[org 0x0100]
+jmp start
+s1: db 'TIME : 00:00::00 ','o'
+s2: db 'SCORE : 0000 ','o'
+s3: db 'CONTINUE ?','o'
+
+
+
+clr:
+mov ax,0xb800
+mov es,ax
+mov ax,0x0720
+mov di,0
+mov cx,4000
+rep stosw
+ret
+
+strlen:
+push bp
+mov bp,sp
+mov ax,ds
+mov es,ax
+mov ax,'o'
+mov di,[bp+4]
+mov cx,0xffff
+repne scasb
+
+mov ax,0xffff
+sub ax,cx
+mov cx,ax
+dec cx
+
+pop bp
+ret 2
+
+
+back:
+push ax
+push es
+push di
+mov ax,0xb800
+mov es,ax
+mov ax,0xBB20
+mov di,0
+
+l1:
+mov word[es:di],ax
+add di,2
+cmp di,4000
+jne l1
+
+pop di
+pop es
+pop ax
+ret
+
+bottom:
+push ax
+push es
+push di
+mov ax,0xb800
+mov es,ax
+mov ax,80
+mov bx,3
+mul bx
+shl ax,1
+mov di,4000
+sub di,ax
+mov ax,0x6E20
+
+l2:
+mov word[es:di],ax
+add di,2
+cmp di,4000
+jne l2
+
+pop di
+pop es
+pop ax
+
+ret
+
+time_score:
+push si
+push di
+push cx
+push bp
+mov bp,sp
+
+mov ax,s1
+push ax
+call strlen
+
+mov si,[bp+12]  ; loading s1
+mov di,160
+mov ax,0xb800
+mov es,ax
+mov ah,0x0A
+
+l3:
+lodsb
+stosw
+loop l3
+
+
+mov ax,s2
+push ax
+call strlen
+
+mov di,318
+shl cx,1
+sub di,cx
+shr cx,1
+add di,2
+mov si,[bp+10]  ; loading s2
+mov ax,0xb800
+mov es,ax
+mov ah,0x0A
+
+l4:
+lodsb
+stosw
+loop l4
+
+
+pop bp
+pop cx
+pop di
+pop si
+ret 6
+
+textf:
+push si
+push di
+push cx
+push bp
+mov bp,sp
+
+mov ax,s3
+push ax
+call strlen
+
+mov si,[bp+10]  ; loading s3
+mov di,400
+add di,1600
+add di,240
+add di,70
+mov ax,0xb800
+mov es,ax
+mov ah,0x0A
+
+l33:
+lodsb
+stosw
+loop l33
+mov ax,0x0720
+stosw
+
+add di,160
+sub di,2
+std
+mov cx,12
+rep stosw
+
+mov cx,2
+t:sub di,160
+add di,2
+stosw
+loop t
+cld 
+add di,2
+mov cx,12
+rep stosw
+
+pop bp
+pop cx
+pop di
+pop si
+ret 
+
+
+textG:
+push ax
+push es
+push di
+push si
+push bp
+mov bp,sp
+mov ax,80
+mul byte[bp+14]
+add ax,[bp+12]
+shl ax,1
+mov di,ax
+push di
+mov ax,0xb800
+mov es,ax
+mov ax,0x4020
+mov cx,0
+add di,12
+std
+mov cx,6
+rep stosw
+
+l12:
+mov word[es:di],ax
+add di,160
+inc cx
+cmp cx,5
+jne l12
+
+cld
+sub di,160
+mov cx,7
+rep stosw
+
+mov word[es:di],ax
+sub di,160
+mov word[es:di],ax
+sub di,160
+std 
+mov cx,4
+rep stosw
+add di,160
+
+mov word[es:di],ax
+
+pop di
+pop bp
+pop si
+pop di
+pop es
+pop ax
+ret 4
+
+texta:
+push ax
+push es
+push di
+push si
+push bp
+mov bp,sp
+mov ax,80
+mul byte[bp+14]
+add ax,[bp+12]
+shl ax,1
+mov di,ax
+push di
+mov ax,0xb800
+mov es,ax
+mov ax,0x4020
+mov cx,0
+
+l13:
+add di,160
+sub di,2
+inc cx
+cmp cx,5
+jne l13
+add di,6
+sub di,160
+mov cx,0
+l14:
+mov word[es:di],ax
+sub di,160
+inc cx
+cmp cx,5
+jne l14
+
+add di,160
+mov cx,4
+rep stosw
+
+l15:
+mov word[es:di],ax
+add di,160
+inc cx
+cmp cx,5
+jne l15
+
+sub di,480
+cld
+mov cx,4
+rep stosw
+
+pop di
+pop bp
+pop si
+pop di
+pop es
+pop ax
+ret 4
+
+textM:
+push ax
+push es
+push di
+push si
+push bp
+mov bp,sp
+mov ax,80
+mul byte[bp+14]
+add ax,[bp+12]
+shl ax,1
+mov di,ax
+push di
+mov ax,0xb800
+mov es,ax
+mov ax,0x4020
+mov cx,0
+
+add di,640
+l16:
+mov word[es:di],ax
+sub di,160
+inc cx
+cmp cx,4
+jne l16
+
+cld
+mov cx,3
+rep stosw
+push di
+mov cx,0
+
+l17:
+mov word[es:di],ax
+add di,160
+inc cx
+cmp cx,3
+jne l17
+
+pop di
+cld
+mov cx,3
+rep stosw
+
+l18:
+mov word[es:di],ax
+add di,160
+inc cx
+cmp cx,5
+jne l18
+
+pop di
+pop bp
+pop si
+pop di
+pop es
+pop ax
+ret 4
+
+textE:
+push ax
+push es
+push di
+push si
+push bp
+mov bp,sp
+mov ax,80
+mul byte[bp+14]
+add ax,[bp+12]
+shl ax,1
+mov di,ax
+push di
+mov ax,0xb800
+mov es,ax
+mov ax,0x4020
+mov cx,0
+
+add di,640
+l19:
+mov word[es:di],ax
+sub di,160
+inc cx
+cmp cx,5
+jne l19
+
+add di,160
+add di,8
+
+std 
+mov cx,4
+rep stosw
+push di
+
+add di,320
+cld
+mov cx,3
+rep stosw
+ 
+pop di
+add di,640
+cld 
+mov cx,5
+rep stosw
+
+
+pop di
+pop bp
+pop si
+pop di
+pop es
+pop ax
+ret 4
+
+texto:
+push ax
+push es
+push di
+push si
+
+mov ax,0xb800
+mov es,ax
+mov di,0
+add di, 566
+mov ax,0x4020
+mov cx,6
+cld 
+rep stosw
+mov cx,3
+g1:
+add di,160
+stosw
+sub di,2
+loop g1
+add di,160
+sub di,2
+mov cx,6
+std
+rep stosw
+mov cx,3
+g2:
+sub di,160
+stosw
+add di,2
+loop g2
+
+
+
+pop si
+pop di
+pop es
+pop ax
+ret
+
+textv:
+push ax
+push es
+push di
+push si
+mov ax,0xb800
+mov es,ax
+mov ax,0x4020
+mov di,582
+mov cx,5
+cld
+
+g3:
+stosw
+add di,160
+loop g3
+sub di,160
+mov cx,4
+
+g4:
+sub di,160
+stosw 
+loop g4
+
+pop si
+pop di
+pop es
+pop ax
+ret
+
+
+textR:
+push ax
+push es
+push di
+push si
+push bp
+mov bp,sp
+mov ax,80
+mul byte[bp+14]
+add ax,[bp+12]
+shl ax,1
+mov di,ax
+push di
+mov ax,0xb800
+mov es,ax
+mov ax,0x4020
+mov cx,0
+
+l9:
+add di,160
+inc cx
+cmp cx,5
+jne l9
+sub di,160
+
+mov cx,0
+l10:
+mov word[es:di],ax
+sub di,160
+inc cx
+cmp cx,5
+jne l10
+
+cld
+add di,160
+mov cx,4
+rep stosw
+
+mov word[es:di],ax
+add di,160
+mov word[es:di],ax
+add di,160
+
+std
+mov cx,4
+rep stosw
+
+mov cx,0
+l11:
+mov word[es:di],ax
+add di,2
+add di,160
+inc cx
+cmp cx,2
+jne l11
+mov word[es:di],ax
+add di,2
+mov word[es:di],ax
+
+pop di
+pop bp
+pop si
+pop di
+pop es
+pop ax
+ret 4
+
+start:
+call clr
+call back
+call bottom
+
+mov ax,s1
+push ax
+mov ax,s2
+push ax
+
+call time_score
+
+
+mov ax,3
+push ax
+mov ax,12
+push ax
+
+call textG
+
+mov ax,3
+push ax
+mov ax,27
+push ax
+
+
+call texta
+
+mov ax,3
+push ax
+mov ax,27
+push ax
+
+call textM
+
+mov ax,3
+push ax
+mov ax,35
+push ax
+
+call textE
+
+mov ax,12
+push ax
+mov ax,25
+push ax
+
+call texto
+call textv
+mov ax,3
+push ax
+mov ax,61
+push ax
+
+call textE
+
+mov ax,3
+push ax
+mov ax,68
+push ax
+
+call textR
+mov ax,s3
+push ax
+cld
+call textf
+
+
+mov ax,0x4c00
+int 0x21
